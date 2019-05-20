@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sendvalue/views/second_page.dart';
 
 class BkToGo extends StatefulWidget {
   @override
@@ -203,7 +204,70 @@ class _BkToGoState extends State<BkToGo> {
                 Expanded(
                   child: RaisedButton(
                     color: Colors.blue,
-                    onPressed: () {},
+                    onPressed: () {
+                      if (nameCtrl.text
+                          .trim()
+                          .isEmpty) {
+                        showDialog(
+                          context: context,
+                        builder: (BuildContext context){
+                            return AlertDialog(
+                              title: Text('Warning!',
+                              ),
+                              content: Text('please check name'),
+                              actions: <Widget>[
+                                FlatButton(
+
+                                  child: Text('OK'),
+                                  onPressed: (){
+                                    setState(() {
+                                      Navigator.pop(context);
+                                    });
+                                  },
+                                )
+                              ],
+                            );
+                        }
+                        );
+                      }else if(numpersonCtrl.text.trim().isEmpty){
+                        showDialog(context: context,
+                        builder: (BuildContext context){
+                          return AlertDialog(
+                            title: Text('Warning!',),
+                            content: Text('Please check number of person'),
+                            actions: <Widget>[
+                              FlatButton(
+                                onPressed: (){
+                                  setState(() {
+                                    Navigator.pop(context);
+                                  });
+                                },
+                                child: Text(
+                                  'OK',
+                                ),
+                              )
+                            ],
+                          );
+                        }
+                        );
+                      }else{
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (context){
+                                return SecondPage(
+                                  nameCtrl.text.trim(),
+                                  numpersonCtrl.text.trim(),
+                                  ddDataSelected,
+                                  cbSelected,
+                                  rdDiscount,
+                                );
+                              }
+                          ),
+                        );
+
+
+                      }
+                    },
                     child: Text(
                       'Calculate',
                       style: TextStyle(
@@ -218,7 +282,15 @@ class _BkToGoState extends State<BkToGo> {
                 Expanded(
                   child: RaisedButton(
                     color: Colors.red,
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        nameCtrl.clear();
+                        numpersonCtrl.clear();
+                        ddDataSelected = ddDatas[0];
+                        cbSelected = false;
+                        rdDiscount = 0;
+                      });
+                    },
                     child: Text(
                       'Cancel',
                       style: TextStyle(
